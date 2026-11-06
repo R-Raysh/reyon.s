@@ -10,16 +10,17 @@
   <script>
     (function(){
       var source='https://raw.githubusercontent.com/R-Raysh/reyon.s/fae7e1ed15211c1c54fdb140dfa5d450cc2b77c0/index.html';
-      var videoUrl='https://raw.githubusercontent.com/R-Raysh/reyon.s/main/3D_woman_walks_and_smiles_2859d3f7_376c9824.mp4';
-      fetch(source).then(function(response){if(!response.ok)throw Error('Could not load the original portfolio.');return response.text()}).then(function(html){
-        var stage='<div class="stage">';
-        if(html.indexOf(stage)===-1)throw Error('Could not find the hero stage.');
-        html=html.replace(stage,stage+'<video id="scrollBgVideo" muted playsinline preload="auto" aria-hidden="true"><source src="'+videoUrl+'" type="video/mp4"></video>');
-        html=html.replace('</head>','<style>.stage{isolation:isolate}#scrollBgVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none}.stage:after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(17,13,54,.38),rgba(17,13,54,.2) 55%,rgba(17,13,54,.7))}.scene{position:relative;z-index:1}.portrait{display:none!important}</style></head>');
-        var scrub='<script>(function(){var video=document.getElementById("scrollBgVideo"),hero=document.querySelector(".hero"),frame=false,reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(!video||!hero||reduced)return;video.pause();function clamp(n){return Math.max(0,Math.min(1,n))}function sync(){frame=false;if(!Number.isFinite(video.duration)||!video.duration)return;var range=hero.offsetHeight-window.innerHeight,progress=range>0?clamp(-hero.getBoundingClientRect().top/range):0;var time=progress*video.duration;if(Math.abs(video.currentTime-time)>.04){try{video.currentTime=time}catch(e){}}}function request(){if(!frame){frame=true;requestAnimationFrame(sync)}}video.addEventListener("loadedmetadata",request);window.addEventListener("scroll",request,{passive:true});window.addEventListener("resize",request);request()})()<\/script>';
-        html=html.replace('</body>',scrub+'</body>');
-        document.open();document.write(html);document.close();
-      }).catch(function(error){document.getElementById('status').textContent='The portfolio could not be loaded. Please refresh the page.';console.error(error)});
+      fetch(source).then(function(response){
+        if(!response.ok)throw Error('Could not load the original portfolio.');
+        return response.text();
+      }).then(function(html){
+        document.open();
+        document.write(html);
+        document.close();
+      }).catch(function(error){
+        document.getElementById('status').textContent='The portfolio could not be loaded. Please refresh the page.';
+        console.error(error);
+      });
     }());
   </script>
 </body>
